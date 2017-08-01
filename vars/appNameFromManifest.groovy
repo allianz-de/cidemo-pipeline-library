@@ -5,9 +5,9 @@ def call(boolean isFeature = false) {
 
     if (isFeature) {
         def branch = env.BRANCH_NAME.replace('/','-')
-        echo "baseName: ${baseName}"
-        echo "branch: ${branch}"
-        echo "together?"
+        println "baseName: ${baseName}"
+        println "branch: ${branch}"
+        println "together?"
         def foo = "${baseName}-${branch}"
         println foo
     }
