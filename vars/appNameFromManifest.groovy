@@ -9,7 +9,8 @@ def call(boolean isFeature = false) {
         println "baseName: ${baseName}"
         println "branch: ${branch}"
         println "together?"
-        def foo = "${baseName}-${branch}"
+        String foo = "${baseName}-${branch}"
+        println "foo:"
         println foo
     } else {
         println "helper says not a feature"
