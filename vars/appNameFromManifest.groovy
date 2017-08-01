@@ -1,5 +1,9 @@
 // vars/appNameFromManifest.groovy
-def call() {
+def call(boolean isFeature = false) {
   def appInfo = readYaml file: './manifest.yml'
-  return appInfo.applications[0].name
+  def baseName = appInfo.applications[0].name
+
+  return isFeature
+    ? "${baseName}-${env.BRANCH_NAME.replace('/','-')}"
+    : baseName
 }
