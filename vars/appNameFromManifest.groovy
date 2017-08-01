@@ -10,6 +10,9 @@ def call(boolean isFeature = false) {
         println "together?"
         def foo = "${baseName}-${branch}"
         println foo
+    } else {
+        println "not a feature"
     }
+
     return baseName
 }
