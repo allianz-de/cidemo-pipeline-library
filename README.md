@@ -7,7 +7,7 @@ August 2017
 
 When creating custom pipelines, shared code and patterns can be extrapolated into [shared libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/), which are imported into your pipelines like so:
 
-```
+```groovy
 @Library('demo-pipeline-library') _
 ```
 
@@ -28,7 +28,7 @@ This demo pipeline library includes global variables defined in groovy files in 
 
 Some are standard helpers like `isFeatureBranch()` which commmunicate _what_ is happening and hide the _how_. Others accept closures, for example `createArtifact` or `uploadToArtifactory`, which do the same and enable a declarative syntax that is easier to understand (and debug!)
 
-```
+```groovy
 post {
     success {
         script {
