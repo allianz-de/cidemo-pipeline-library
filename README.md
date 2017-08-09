@@ -26,20 +26,30 @@ This demo pipeline library includes global variables defined in groovy files in 
 
 ### Define a custom DSL
 
-Some are standard helpers like `isFeatureBranch()` which commmunicate _what_ is happening and hide the _how_.
-
-Others accept a closure, for example:
+Some are standard helpers like `isFeatureBranch()` which commmunicate _what_ is happening and hide the _how_. Others accept closures, for example `createArtifact` or `uploadToArtifactory`, which do the same and enable a declarative syntax that is easier to understand (and debug!)
 
 ```
-uploadToArtifactory {
-    pattern = 'artifact-*.zip'
-    target = 'snapshot-local/cidemo-frontend/'
+post {
+    success {
+        script {
+            createArtifact {
+                prefix = 'artifact-'
+                version = nextVersion()
+                sha = buildCommitSha()
+            }
+
+            uploadToArtifactory {
+                pattern = 'artifact-*.zip'
+                target = 'snapshot-local/cidemo-frontend/'
+            }
+
+            cleanUpArtifacts()
+        }
+    }
 }
 ```
 
-When you create libraries that you want to be used, pay attention to the design of your domain specific language (DSL). As a developer, I want to upload build artifacts for auditing. 
-
-A beautiful DSL let's developers ship without worrying about _how_ something works. Aim for clear DSLs for greater long-term productivity.
+When you create libraries that you want to be used, pay attention to the design of your domain specific language (DSL). A beautiful DSL let's developers ship without worrying about _how_ something works. Aim for clear DSLs for greater long-term productivity. 
 
 ## License (MIT)
 
