@@ -8,13 +8,25 @@ def call(body) {
 
     // now build, based on the configuration provided
     node {
-        String apiUrl        = requiredParam(config, 'apiUrl')
+        // Cloud Foundry login options must be set as environment variables
+        String apiUrl        = requiredEnv('CF_API')
+        String org           = requiredEnv('CF_ORG')
+        String space         = requiredEnv('CF_SPACE')
+
+        // These params can be passed into the `cfPush` closure
         String credentialsId = requiredParam(config, 'credentialsId')
-        String org           = requiredParam(config, 'org')
-        String space         = requiredParam(config, 'space')
         String skipSSL       = config.hasProperty('skipSSL') && config['skipSSL']
                                 ? '--skip-ssl-validation'
                                 : ''
+
+        // Optional params
+        String pushOpts = ''
+        if (config.hasProperty('appName')) {
+            pushOpts = pushOpts + " ${config['appName']}"
+        }
+        if (config.hasProperty('manifest')) {
+            pushOpts = pushOpts + " -f ${config['manifest']}"
+        }
 
         withCredentials([[
             $class          : 'UsernamePasswordMultiBinding',
@@ -24,25 +36,26 @@ def call(body) {
 
             String loginOptions = "-a $apiUrl -u $CF_USER -p $CF_PASSWORD -o $org -s $space $skipSSL"
 
-            String pushOpts = ''
-            if (config.hasProperty('appName')) {
-                pushOpts = pushOpts + " ${config['appName']}"
-            }
-            if (config.hasProperty('manifest')) {
-                pushOpts = pushOpts + " -f ${config['manifest']}"
-            }
-
             sh "cf login $loginOptions"
-            sh "cf push $pushOptions"
+            sh "cf push $pushOpts"
             sh "cf logout"
         }
     }
 }
 
+def requiredEnv(String param) {
+    if (env[param]) {
+        return env[param]
+    } else {
+        error "Missing $param param as environment variable"
+    }
+}
+
+
 def requiredParam(Map config, String param) {
     if (config.hasProperty(param)) {
         return config[param]
     } else {
-        error "missing $param parameter"
+        error "Missing $param parameter"
     }
 }
