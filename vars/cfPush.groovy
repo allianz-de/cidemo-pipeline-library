@@ -12,7 +12,9 @@ def call(body) {
         String credentialsId = requiredParam(config, 'credentialsId')
         String org           = requiredParam(config, 'org')
         String space         = requiredParam(config, 'space')
-        String skipSSLFlag   = config.hasProperty('skipSSL') ? '--skip-ssl-validation' : ''
+        String skipSSL       = config.hasProperty('skipSSL') && config['skipSSL']
+                                ? '--skip-ssl-validation'
+                                : ''
 
         withCredentials([[
             $class          : 'UsernamePasswordMultiBinding',
