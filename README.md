@@ -1,9 +1,4 @@
-# JavaScript CI Demo - Jenkins Pipeline Library
-
-MunichJS  
-August 2017
-
-### What is a Pipeline Library?
+# CI Demo - Pipeline Library
 
 When creating custom pipelines, shared code and patterns can be extrapolated into [shared libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/), which are imported into your pipelines like so:
 
@@ -11,20 +6,40 @@ When creating custom pipelines, shared code and patterns can be extrapolated int
 @Library('demo-pipeline-library') _
 ```
 
-### Creating a Library
+This is a working library and features integrations with
+
+- [Cloud Foundry](https://www.cloudfoundry.org/)
+    - [`appNameFromManifest`](./vars/appNameFromManifest.groovy)
+    - [`cfPush`](./vars/cfPush.groovy)
+- [Artifactory](https://www.jfrog.com/artifactory/)
+    - [`cleanUpArtifacts`](./vars/cleanUpArtifacts.groovy)
+    - [`createArtifact`](./vars/createArtifact.groovy)
+    - [`uploadToArtifactory`](./vars/uploadToArtifactory.groovy)
+
+## Shared Functionality
 
 This demo pipeline library includes global variables defined in groovy files in the `vars/` subfolder, which are singletons and automatically instantiated:
 
+### Global
+
+Consider making these methods available to all teams across your organization.
+
 - `appNameFromManifest`
+- `cfPush`
 - `buildCommitSha`
 - `cleanUpArtifacts`
 - `createArtifact`
-- `isFeatureBranch`
-- `isReleaseBranch`
-- `nextVersion`
 - `uploadToArtifactory`
 
-### Define a custom DSL
+### Team Specific 
+
+You can also use pipeline libraries to make sure teams adhere to their specific naming conventions. See these examples:
+
+- `nextVersion`
+- `isFeatureBranch`
+- `isReleaseBranch`
+
+## DSLs
 
 Some are standard helpers like `isFeatureBranch()` which commmunicate _what_ is happening and hide the _how_. Others accept closures, for example `createArtifact` or `uploadToArtifactory`, which do the same and enable a declarative syntax that is easier to understand (and debug!)
 
