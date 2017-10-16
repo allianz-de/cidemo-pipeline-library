@@ -1,4 +1,4 @@
 // vars/cleanUpArtifacts.groovy
 def call() {
-  sh 'rm -rf *.zip'
+    sh 'rm -rf *.zip'
 }
