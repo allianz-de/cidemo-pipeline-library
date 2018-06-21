@@ -16,11 +16,11 @@ This is a working library and features integrations with
     - [`createArtifact`](./vars/createArtifact.groovy)
     - [`uploadToArtifactory`](./vars/uploadToArtifactory.groovy)
 
-## Shared Functionality
+## Shared Library
 
 This demo pipeline library includes global variables defined in groovy files in the `vars/` subfolder, which are singletons and automatically instantiated:
 
-### Global
+### Global Functionality
 
 Consider making these methods available to all teams across your organization.
 
@@ -31,7 +31,7 @@ Consider making these methods available to all teams across your organization.
 - `createArtifact`
 - `uploadToArtifactory`
 
-### Team Specific 
+### Team Specific Conventions
 
 You can also use pipeline libraries to make sure teams adhere to their specific naming conventions. See these examples:
 
@@ -39,7 +39,7 @@ You can also use pipeline libraries to make sure teams adhere to their specific 
 - `isFeatureBranch`
 - `isReleaseBranch`
 
-## DSLs
+## Domain Specific Language
 
 Some are standard helpers like `isFeatureBranch()` which commmunicate _what_ is happening and hide the _how_. Others accept closures, for example `createArtifact` or `uploadToArtifactory`, which do the same and enable a declarative syntax that is easier to understand (and debug!)
 
