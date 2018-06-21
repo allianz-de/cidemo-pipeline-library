@@ -1,9 +1,15 @@
 // vars/cfPush.groovy
+
+// This `cfPush` is dumb (does login and logout too) and for demo purposes only.
+// It is not meant for development or production use.
+
 def call(Map params = [:]) {
     String apiUrl        = requiredParam(params, 'apiUrl')
     String credentialsId = requiredParam(params, 'credentialsId')
     String org           = requiredParam(params, 'org')
     String space         = requiredParam(params, 'space')
+
+    // skipSSL was required when deploying to locally installed pcf-dev
     String skipSSL       = params['skipSSL']
                             ? '--skip-ssl-validation'
                             : ''
